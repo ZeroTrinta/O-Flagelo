@@ -1308,6 +1308,8 @@ body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
   padding:8px;cursor:pointer;transition:all 0.2s;display:none}
 .best-add-btn:hover{background:rgba(201,162,82,0.15)}
 .best-add-btn.visible{display:block}
+.best-list-header .best-add-btn{display:none;padding:4px 10px;font-size:9px;margin:0}
+.best-list-header .best-add-btn.visible{display:block}
 /* right: entry detail */
 .best-detail{flex:1;overflow-y:auto;display:flex;flex-direction:column}
 .best-detail::-webkit-scrollbar{width:4px}
@@ -1406,6 +1408,7 @@ body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
 <div class="nav-item" onclick="navTo('flagelo')" id="nav-flagelo"><span class="nav-icon">☠</span>O Flagelo<span class="nav-badge">ATIVO</span></div>
 <div class="nav-item" onclick="navTo('ressonador')" id="nav-ressonador"><span class="nav-icon">⊕</span>Ressonador Anímico</div>
 <div class="nav-item" onclick="navTo('timeline')" id="nav-timeline"><span class="nav-icon">⟳</span>Linha do Tempo</div>
+<div class="nav-item" onclick="navTo('bestiario')" id="nav-bestiario"><span class="nav-icon">📖</span>Logbook de Criaturas</div>
 </div>
 <div class="nav-section"><div class="nav-section-title">Cidades</div>
 <div class="nav-item" onclick="navTo('darkwell')" id="nav-darkwell"><span class="nav-icon">◉</span>Dark Well</div>
@@ -1442,10 +1445,7 @@ body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
 <div class="nav-section"><div class="nav-section-title">Religião</div>
 <div class="nav-item" onclick="navTo('sanguinius')" id="nav-sanguinius"><span class="nav-icon">☩</span>Sanguinius, o Anjo</div>
 </div>
-    <div id="nav-dynamic-sections"><div class="nav-section"><div class="nav-section-title">Bestiário</div>
-<div class="nav-item" onclick="navTo('bestiario')" id="nav-bestiario"><span class="nav-icon">📖</span>Logbook de Criaturas</div>
-</div>
-<div class="nav-section"><div class="nav-section-title">Povos &amp; Espécies</div><div class="nav-item" onclick="navTo('dyn_154')" id="nav-dyn_154"><span class="nav-icon">◑</span>Elfos</div><div class="nav-item" onclick="navTo('dyn_159')" id="nav-dyn_159"><span class="nav-icon">🔥</span>Tieflings</div><div class="nav-item" onclick="navTo('dyn_160')" id="nav-dyn_160"><span class="nav-icon">🌊</span>Tritões</div></div></div>
+    <div id="nav-dynamic-sections"><div class="nav-section"><div class="nav-section-title">Povos &amp; Espécies</div><div class="nav-item" onclick="navTo('dyn_154')" id="nav-dyn_154"><span class="nav-icon">◑</span>Elfos</div><div class="nav-item" onclick="navTo('dyn_159')" id="nav-dyn_159"><span class="nav-icon">🔥</span>Tieflings</div><div class="nav-item" onclick="navTo('dyn_160')" id="nav-dyn_160"><span class="nav-icon">🌊</span>Tritões</div></div></div>
     <div class="nav-section" id="nav-chars-section" style="display: block;">
     <div class="nav-section-title">Personagens</div>
     <div id="nav-chars-list"><div class="nav-item" onclick="navTo('char_99')" id="nav-char_99" style="gap:8px"><img src="https://xbbvidxebipkavbggjpx.supabase.co/storage/v1/object/public/wiki-images/img-1775872094269.png" style="width:22px;height:22px;border-radius:50%;object-fit:cover;flex-shrink:0;filter:saturate(0.8) brightness(0.85)"><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Gardênie Van Blumenberg</span></div><div class="nav-item" onclick="navTo('char_130')" id="nav-char_130" style="gap:8px"><img src="https://xbbvidxebipkavbggjpx.supabase.co/storage/v1/object/public/wiki-images/img-1775876521201.png" style="width:22px;height:22px;border-radius:50%;object-fit:cover;flex-shrink:0;filter:saturate(0.8) brightness(0.85)"><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Archeon Dunkan</span></div><div class="nav-item" onclick="navTo('char_131')" id="nav-char_131" style="gap:8px"><img src="https://xbbvidxebipkavbggjpx.supabase.co/storage/v1/object/public/wiki-images/img-1776089130509.jpg" style="width:22px;height:22px;border-radius:50%;object-fit:cover;flex-shrink:0;filter:saturate(0.8) brightness(0.85)"><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Nestha Feyre</span></div><div class="nav-item" onclick="navTo('char_132')" id="nav-char_132" style="gap:8px"><img src="https://xbbvidxebipkavbggjpx.supabase.co/storage/v1/object/public/wiki-images/img-1775878549431.jpg" style="width:22px;height:22px;border-radius:50%;object-fit:cover;flex-shrink:0;filter:saturate(0.8) brightness(0.85)"><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Phaaram</span></div><div class="nav-item" onclick="navTo('char_133')" id="nav-char_133" style="gap:8px"><img src="https://xbbvidxebipkavbggjpx.supabase.co/storage/v1/object/public/wiki-images/img-1775879562714.jpg" style="width:22px;height:22px;border-radius:50%;object-fit:cover;flex-shrink:0;filter:saturate(0.8) brightness(0.85)"><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Corvo Attano</span></div><div class="nav-item" onclick="navTo('char_134')" id="nav-char_134" style="gap:8px"><img src="https://xbbvidxebipkavbggjpx.supabase.co/storage/v1/object/public/wiki-images/img-1775896766142.png" style="width:22px;height:22px;border-radius:50%;object-fit:cover;flex-shrink:0;filter:saturate(0.8) brightness(0.85)"><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Saiph Ousel</span></div><div class="nav-item" onclick="navTo('char_135')" id="nav-char_135" style="gap:8px"><img src="https://xbbvidxebipkavbggjpx.supabase.co/storage/v1/object/public/wiki-images/img-1777754819884.png" style="width:22px;height:22px;border-radius:50%;object-fit:cover;flex-shrink:0;filter:saturate(0.8) brightness(0.85)"><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Laredo De'Colapinto</span></div><div class="nav-item" onclick="navTo('char_136')" id="nav-char_136" style="gap:8px"><img src="https://xbbvidxebipkavbggjpx.supabase.co/storage/v1/object/public/wiki-images/img-1776052438134.jpg" style="width:22px;height:22px;border-radius:50%;object-fit:cover;flex-shrink:0;filter:saturate(0.8) brightness(0.85)"><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Arkhan Razukavour</span></div><div class="nav-item" onclick="navTo('char_137')" id="nav-char_137" style="gap:8px"><img src="https://xbbvidxebipkavbggjpx.supabase.co/storage/v1/object/public/wiki-images/img-1776066857935.jpg" style="width:22px;height:22px;border-radius:50%;object-fit:cover;flex-shrink:0;filter:saturate(0.8) brightness(0.85)"><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Wolfen Asentreu Van Sorensen</span></div><div class="nav-item" onclick="navTo('char_138')" id="nav-char_138" style="gap:8px"><img src="https://xbbvidxebipkavbggjpx.supabase.co/storage/v1/object/public/wiki-images/img-1776052194908.jpg" style="width:22px;height:22px;border-radius:50%;object-fit:cover;flex-shrink:0;filter:saturate(0.8) brightness(0.85)"><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Hati Asentreu Van Sorensen</span></div><div class="nav-item" onclick="navTo('char_143')" id="nav-char_143" style="gap:8px"><img src="https://xbbvidxebipkavbggjpx.supabase.co/storage/v1/object/public/wiki-images/img-1776188915853.png" style="width:22px;height:22px;border-radius:50%;object-fit:cover;flex-shrink:0;filter:saturate(0.8) brightness(0.85)"><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Melissa Belladona</span></div><div class="nav-item" onclick="navTo('char_144')" id="nav-char_144" style="gap:8px"><img src="https://xbbvidxebipkavbggjpx.supabase.co/storage/v1/object/public/wiki-images/img-1776453491510.png" style="width:22px;height:22px;border-radius:50%;object-fit:cover;flex-shrink:0;filter:saturate(0.8) brightness(0.85)"><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Frida Weber</span></div><div class="nav-item" onclick="navTo('char_145')" id="nav-char_145" style="gap:8px"><img src="https://xbbvidxebipkavbggjpx.supabase.co/storage/v1/object/public/wiki-images/img-1776452591519.png" style="width:22px;height:22px;border-radius:50%;object-fit:cover;flex-shrink:0;filter:saturate(0.8) brightness(0.85)"><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Lyn Nixie</span></div><div class="nav-item" onclick="navTo('char_147')" id="nav-char_147" style="gap:8px"><img src="https://xbbvidxebipkavbggjpx.supabase.co/storage/v1/object/public/wiki-images/img-1777066677698.jpg" style="width:22px;height:22px;border-radius:50%;object-fit:cover;flex-shrink:0;filter:saturate(0.8) brightness(0.85)"><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Dante Caravaggio</span></div><div class="nav-item" onclick="navTo('char_148')" id="nav-char_148" style="gap:8px"><img src="https://xbbvidxebipkavbggjpx.supabase.co/storage/v1/object/public/wiki-images/img-1776733128429.png" style="width:22px;height:22px;border-radius:50%;object-fit:cover;flex-shrink:0;filter:saturate(0.8) brightness(0.85)"><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Jakhan Shun</span></div><div class="nav-item" onclick="navTo('char_150')" id="nav-char_150" style="gap:8px"><img src="https://xbbvidxebipkavbggjpx.supabase.co/storage/v1/object/public/wiki-images/img-1777162428535.png" style="width:22px;height:22px;border-radius:50%;object-fit:cover;flex-shrink:0;filter:saturate(0.8) brightness(0.85)"><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Agata Contarato</span></div><div class="nav-item" onclick="navTo('char_151')" id="nav-char_151" style="gap:8px"><img src="https://xbbvidxebipkavbggjpx.supabase.co/storage/v1/object/public/wiki-images/img-1777063771015.jpg" style="width:22px;height:22px;border-radius:50%;object-fit:cover;flex-shrink:0;filter:saturate(0.8) brightness(0.85)"><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Trinity Hutrad</span></div><div class="nav-item" onclick="navTo('char_152')" id="nav-char_152" style="gap:8px"><img src="https://xbbvidxebipkavbggjpx.supabase.co/storage/v1/object/public/wiki-images/img-1777311844367.png" style="width:22px;height:22px;border-radius:50%;object-fit:cover;flex-shrink:0;filter:saturate(0.8) brightness(0.85)"><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Sylfian Tyrael Fenlen</span></div><div class="nav-item" onclick="navTo('char_153')" id="nav-char_153" style="gap:8px"><img src="https://xbbvidxebipkavbggjpx.supabase.co/storage/v1/object/public/wiki-images/img-1777509864341.png" style="width:22px;height:22px;border-radius:50%;object-fit:cover;flex-shrink:0;filter:saturate(0.8) brightness(0.85)"><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Edward Hurtad</span></div><div class="nav-item" onclick="navTo('char_155')" id="nav-char_155" style="gap:8px"><img src="https://xbbvidxebipkavbggjpx.supabase.co/storage/v1/object/public/wiki-images/img-1777839136940.png" style="width:22px;height:22px;border-radius:50%;object-fit:cover;flex-shrink:0;filter:saturate(0.8) brightness(0.85)"><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Neruzem</span></div><div class="nav-item" onclick="navTo('char_156')" id="nav-char_156" style="gap:8px"><img src="https://xbbvidxebipkavbggjpx.supabase.co/storage/v1/object/public/wiki-images/img-1777527538772.png" style="width:22px;height:22px;border-radius:50%;object-fit:cover;flex-shrink:0;filter:saturate(0.8) brightness(0.85)"><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Yohan Nicklas</span></div><div class="nav-item" onclick="navTo('char_157')" id="nav-char_157" style="gap:8px"><img src="https://xbbvidxebipkavbggjpx.supabase.co/storage/v1/object/public/wiki-images/img-1777758320988.png" style="width:22px;height:22px;border-radius:50%;object-fit:cover;flex-shrink:0;filter:saturate(0.8) brightness(0.85)"><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Skadi Asentreu Van Sorensen</span></div><div class="nav-item" onclick="navTo('char_158')" id="nav-char_158" style="gap:8px"><img src="https://xbbvidxebipkavbggjpx.supabase.co/storage/v1/object/public/wiki-images/img-1777843238202.jpg" style="width:22px;height:22px;border-radius:50%;object-fit:cover;flex-shrink:0;filter:saturate(0.8) brightness(0.85)"><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Lyfalia</span></div></div>
@@ -3549,11 +3549,14 @@ bestiario: {
       <!-- LEFT: creature list -->
       <div class="best-list">
         <div class="best-list-header">
-          <div class="best-list-title">Logbook</div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+            <div class="best-list-title">Logbook</div>
+            <button class="best-add-btn" id="best-add-btn" onclick="bestOpenModal()" style="margin:0;padding:4px 8px;font-size:8px">+</button>
+          </div>
           <div class="best-list-count" id="best-count">Carregando...</div>
         </div>
         <div id="best-entries-list"></div>
-        <button class="best-add-btn" id="best-add-btn" onclick="bestOpenModal()">+ Nova Entrada</button>
+
       </div>
       <!-- RIGHT: detail -->
       <div class="best-detail" id="best-detail">
@@ -3612,6 +3615,11 @@ bestiario: {
           <div class="field-group" style="margin-bottom:10px">
             <label class="field-label">Comportamento & Ataques</label>
             <textarea class="field-textarea" id="best-behavior" style="min-height:80px" placeholder="Como ataca? É agressiva? Age em matilha?"></textarea>
+          </div>
+          <div class="field-group" style="margin-bottom:10px">
+            <label class="field-label">Habilidades & Ataques Especiais</label>
+            <div id="best-abilities-list" style="margin-bottom:6px"></div>
+            <button type="button" onclick="bestAddAbility()" style="background:rgba(201,162,82,0.07);border:1px solid var(--gold-dim);color:var(--gold);font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.08em;padding:6px 12px;cursor:pointer;width:100%">+ Adicionar Habilidade</button>
           </div>
           <div class="field-group">
             <label class="field-label">Notas de Campo</label>
@@ -5121,6 +5129,30 @@ const BEST_HARDCODED = [
 let bestEntries = [];
 let bestActiveId = null;
 let bestEditingId = null;
+let bestAbilitiesArr = [];
+
+function bestAddAbility(ab) {
+  const idx = bestAbilitiesArr.length;
+  bestAbilitiesArr.push(ab || {name:'', effect:''});
+  bestRenderAbilities();
+}
+
+function bestRenderAbilities() {
+  const list = document.getElementById('best-abilities-list');
+  if(!list) return;
+  list.innerHTML = bestAbilitiesArr.map((ab,i) => `
+    <div style="display:flex;gap:6px;margin-bottom:6px;align-items:flex-start">
+      <div style="flex:1;display:flex;flex-direction:column;gap:4px">
+        <input class="field-input" placeholder="Nome da habilidade" value="${ab.name||''}"
+          oninput="bestAbilitiesArr[${i}].name=this.value" style="font-size:12px;padding:5px 8px">
+        <input class="field-input" placeholder="Efeito / descrição" value="${ab.effect||''}"
+          oninput="bestAbilitiesArr[${i}].effect=this.value" style="font-size:12px;padding:5px 8px">
+      </div>
+      <button onclick="bestAbilitiesArr.splice(${i},1);bestRenderAbilities()" 
+        style="background:rgba(122,26,26,0.2);border:1px solid rgba(122,26,26,0.4);color:var(--red2);width:26px;height:26px;cursor:pointer;flex-shrink:0;margin-top:2px">✕</button>
+    </div>
+  `).join('');
+}
 
 async function bestLoad() {
   // Start with hardcoded
@@ -5203,6 +5235,12 @@ function bestShowEntry(id) {
       </div>
       ${e.descricao?`<div class="best-section-label">Descrição & Aparência</div><p class="best-p">${e.descricao}</p>`:''}
       ${e.behavior?`<div class="best-section-label">Comportamento & Ataques</div><p class="best-p">${e.behavior}</p>`:''}
+      ${e.abilities&&e.abilities.length?`
+      <div class="best-section-label">Habilidades</div>
+      ${e.abilities.map(a=>`<div style="background:var(--panel);border:1px solid var(--border);padding:8px 12px;margin-bottom:6px">
+        <div style="font-family:'Cinzel',serif;font-size:12px;color:var(--text);margin-bottom:3px">${a.name}</div>
+        <div style="font-size:13px;color:var(--text2);font-style:italic">${a.effect}</div>
+      </div>`).join('')}`:''}
       ${e.notes?`<div class="best-section-label">✦ Notas de Campo</div><p class="best-p" style="font-style:italic;color:var(--text3)">${e.notes}</p>`:''}
       ${adminLoggedIn&&typeof e.id==='number'?`<button class="char-edit-btn" style="margin-top:16px" onclick="bestOpenModal(${e.id})">✎ Editar Entrada</button>`:''}
     </div>
@@ -5223,6 +5261,8 @@ function bestOpenModal(id) {
   document.getElementById('best-desc').value = e?.descricao||'';
   document.getElementById('best-behavior').value = e?.behavior||'';
   document.getElementById('best-notes').value = e?.notes||'';
+  bestAbilitiesArr = e?.abilities ? JSON.parse(JSON.stringify(e.abilities)) : [];
+  bestRenderAbilities();
   document.getElementById('best-modal-msg').textContent = '';
   document.getElementById('best-delete-btn').style.display = e ? 'block' : 'none';
   document.getElementById('best-modal-overlay').classList.add('show');
@@ -5247,6 +5287,7 @@ async function bestSave() {
     descricao: document.getElementById('best-desc').value.trim(),
     behavior: document.getElementById('best-behavior').value.trim(),
     notes: document.getElementById('best-notes').value.trim(),
+    abilities: bestAbilitiesArr.filter(a=>a.name),
   };
   const result = bestEditingId
     ? await sbFetch('bestiary?id=eq.'+bestEditingId,'PATCH',payload)
