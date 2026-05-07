@@ -6313,7 +6313,7 @@ function relLineHover(e,idx){
   tip.style.display='block';
   tip.style.left=(e.clientX+14)+'px';
   tip.style.top=(e.clientY-10)+'px';
-  tip.innerHTML=`<span style="color:${REL_COLORS[c.type]};font-family:Cinzel,serif;font-size:10px;letter-spacing:0.1em">${REL_LABELS[c.type]}</span>${c.desc?'<br><span style="color:var(--text2)">'+c.desc+'</span>':''}`;
+  tip.innerHTML=`<span style="color:${REL_COLORS[c.type]};font-family:Cinzel,serif;font-size:10px;letter-spacing:0.1em">${REL_LABELS[c.type]}</span>${(c.descricao||c.desc)?'<br><span style="color:var(--text2)">'+( c.descricao||c.desc)+'</span>':''}`;
 }
 
 function relHideTooltip(){
@@ -6360,7 +6360,7 @@ function relOpenModal(connIdx){
     document.getElementById('rel-char-a').value=c.char_a||c.a||'';
     document.getElementById('rel-char-b').value=c.char_b||c.b||'';
     document.getElementById('rel-type').value=c.type||'neutro';
-    document.getElementById('rel-desc').value=c.desc||'';
+    document.getElementById('rel-desc').value=c.descricao||c.desc||'';
   } else {
     document.getElementById('rel-type').value='neutro';
     document.getElementById('rel-desc').value='';
@@ -6378,7 +6378,7 @@ async function relSaveConn(){
   const msg=document.getElementById('rel-modal-msg');
   if(!char_a||!char_b||char_a===char_b){msg.style.color='var(--red2)';msg.textContent='Selecione dois personagens diferentes.';return;}
   msg.style.color='var(--text3)';msg.textContent='Salvando...';
-  const payload={char_a,char_b,type:document.getElementById('rel-type').value,desc:document.getElementById('rel-desc').value.trim()};
+  const payload={char_a,char_b,type:document.getElementById('rel-type').value,descricao:document.getElementById('rel-desc').value.trim()};
   const existing=relEditingConn!=null?relConns[relEditingConn]:null;
   let result=null;
   if(existing&&typeof existing.id==='number'){
