@@ -5342,18 +5342,17 @@ const MUSIC_SRC_KEY = 'flagelo_music_url';
 let musicPlaying = false;
 let musicMuted = false;
 
+const DEFAULT_MUSIC_URL = 'https://xbbvidxebipkavbggjpx.supabase.co/storage/v1/object/public/music/BG%20music.mp3';
+
 function musicInit() {
-  // Check localStorage for saved URL
-  const savedUrl = localStorage.getItem(MUSIC_SRC_KEY);
+  const savedUrl = localStorage.getItem(MUSIC_SRC_KEY) || DEFAULT_MUSIC_URL;
   const audio = document.getElementById('bg-audio');
   const player = document.getElementById('music-player');
   if(!audio || !player) return;
-  if(savedUrl) {
-    audio.src = savedUrl;
-    player.style.display = 'flex';
-  }
+  audio.src = savedUrl;
+  player.style.display = 'flex';
   audio.volume = 0.3;
-  audio.addEventListener('ended', () => audio.play()); // fallback loop
+  audio.addEventListener('ended', () => audio.play());
 }
 
 function musicToggle() {
