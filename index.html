@@ -1768,10 +1768,7 @@ body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
       <div class="rel-legend-item"><div class="rel-legend-line" style="background:#c8a030;height:1px;border-top:1px dashed #c8a030"></div>Desconhecido</div>
       <div class="rel-legend-item"><div class="rel-legend-line" style="background:#b03030"></div>Inimigo</div>
     </div>
-    <button class="rel-tool-btn" onclick="relZoom(0.15)">＋</button>
-    <div id="rel-zoom-display">100%</div>
-    <button class="rel-tool-btn" onclick="relZoom(-0.15)">－</button>
-    <button class="rel-tool-btn" onclick="relResetView()">↺</button>
+    <button class="rel-tool-btn" onclick="relResetView()">↺ Centralizar</button>
     <button class="rel-tool-btn" id="rel-add-btn" onclick="relOpenModal(null)" style="display:none">+ Conexão</button>
   </div>
   <div id="rel-canvas"
@@ -1781,8 +1778,10 @@ body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
     onwheel="relOnWheel(event)"
     onclick="relCanvasClick(event)">
     <canvas id="rel-bg-canvas"></canvas>
-    <svg id="rel-svg" xmlns="http://www.w3.org/2000/svg"></svg>
-    <div id="rel-nodes-layer"></div>
+    <div id="rel-transform-layer" style="position:absolute;top:0;left:0;transform-origin:0 0">
+      <svg id="rel-svg" xmlns="http://www.w3.org/2000/svg" style="position:absolute;top:0;left:0;width:10000px;height:10000px;overflow:visible;pointer-events:all"></svg>
+      <div id="rel-nodes-layer" style="position:absolute;top:0;left:0"></div>
+    </div>
   </div>
   <div id="rel-tooltip"></div>
 </div>
@@ -6093,12 +6092,8 @@ function relBuildNodes(){
 }
 
 function relApplyTransform(){
-  const layer=document.getElementById('rel-nodes-layer');
-  const svg=document.getElementById('rel-svg');
-  if(layer) layer.style.transform=`translate(${relOffX}px,${relOffY}px) scale(${relScale})`;
-  if(svg) svg.style.transform=`translate(${relOffX}px,${relOffY}px) scale(${relScale})`;
-  const zd=document.getElementById('rel-zoom-display');
-  if(zd) zd.textContent=Math.round(relScale*100)+'%';
+  const layer=document.getElementById('rel-transform-layer');
+  if(layer) layer.style.transform=`translate(${relOffX}px,${relOffY}px)`;
 }
 
 function relRenderLines(){
@@ -6155,31 +6150,14 @@ function relRender(){
 }
 
 // ── Zoom ──
-function relZoom(delta){
-  relScale=Math.min(3,Math.max(0.2,relScale+delta));
-  relApplyTransform();
-  // Animate zoom display
-  const zd=document.getElementById('rel-zoom-display');
-  if(zd){zd.style.color='var(--gold)';setTimeout(()=>zd.style.color='var(--text3)',400);}
-}
+// zoom removed
 
 function relOnWheel(e){
-  e.preventDefault();
-  const delta=e.deltaY>0?-0.1:0.1;
-  // Zoom toward cursor
-  const wrap=document.getElementById('rel-canvas');
-  const rect=wrap.getBoundingClientRect();
-  const mx=e.clientX-rect.left, my=e.clientY-rect.top;
-  const oldScale=relScale;
-  relScale=Math.min(3,Math.max(0.2,relScale+delta));
-  const scaleRatio=relScale/oldScale;
-  relOffX=mx-(mx-relOffX)*scaleRatio;
-  relOffY=my-(my-relOffY)*scaleRatio;
-  relApplyTransform();
+  e.preventDefault(); // prevent page scroll
 }
 
 function relResetView(){
-  relScale=1;relOffX=0;relOffY=0;
+  relOffX=0;relOffY=0;
   relApplyTransform();
 }
 
@@ -6202,6 +6180,7 @@ function relCanvasMove(e){
     relNodes[relDragging].y=wy;
     const el=document.getElementById('reln-'+relDragging);
     if(el){el.style.left=wx+'px';el.style.top=wy+'px';}
+    // Update lines in same coordinate space
     relRenderLines();
     return;
   }
