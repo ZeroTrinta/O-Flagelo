@@ -4597,6 +4597,7 @@ async function loadAllEntries(){
   // Dynamic nav sections — inject into existing hardcoded sections when possible
   const cats={};dynEntries.forEach(e=>{const c=e.category||'Outros';if(!cats[c])cats[c]=[];cats[c].push(e);});
   const nav=document.getElementById('nav-dynamic-sections');nav.innerHTML='';
+  document.querySelectorAll('#nav .nav-item[id^="nav-dyn_"]').forEach(function(el){el.remove();});
   // Map category names to nav-section-title text in the hardcoded nav
   const CAT_NAV_MAP={
     'Cidades':'Cidades',
@@ -5350,9 +5351,27 @@ function musicInit() {
   const player = document.getElementById('music-player');
   if(!audio || !player) return;
   audio.src = savedUrl;
-  player.style.display = 'flex';
   audio.volume = 0.3;
-  audio.addEventListener('ended', () => audio.play());
+  player.style.display = 'flex';
+  // Try autoplay immediately
+  audio.play().then(() => {
+    musicPlaying = true;
+    const btn = document.getElementById('music-play-btn');
+    if(btn){ btn.textContent = '⏸'; btn.classList.add('playing'); }
+  }).catch(() => {
+    // Autoplay blocked — start on first user interaction
+    const startOnClick = () => {
+      audio.play().then(() => {
+        musicPlaying = true;
+        const btn = document.getElementById('music-play-btn');
+        if(btn){ btn.textContent = '⏸'; btn.classList.add('playing'); }
+      }).catch(()=>{});
+      document.removeEventListener('click', startOnClick);
+      document.removeEventListener('keydown', startOnClick);
+    };
+    document.addEventListener('click', startOnClick);
+    document.addEventListener('keydown', startOnClick);
+  });
 }
 
 function musicToggle() {
