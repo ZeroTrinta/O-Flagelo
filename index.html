@@ -1870,17 +1870,7 @@ body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
   </div>
   <div id="admin-body">
     <div id="login-panel">
-      <div id="supabase-cfg">
-        <p>Configure o <strong>Supabase</strong>. Cole a URL e a chave <code>anon public</code> em <strong>Settings → API</strong>.</p>
-        <div class="two-col">
-          <div class="field-group"><label class="field-label">Supabase URL</label><input class="field-input" id="cfg-url" placeholder="https://xxxx.supabase.co" type="url"></div>
-          <div class="field-group"><label class="field-label">Anon Public Key</label><input class="field-input" id="cfg-key" placeholder="eyJhbGc..." type="text"></div>
-        </div>
-        <div style="display:flex;align-items:center;gap:10px">
-          <button class="btn-primary btn-small" onclick="saveSupabaseCfg()" style="width:auto">Salvar Config</button>
-          <span id="cfg-msg" style="font-size:12px;color:var(--gold);font-style:italic"></span>
-        </div>
-      </div>
+      
       <div class="field-group"><label class="field-label">Senha de Admin</label>
         <input class="field-input" id="pw-input" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()">
       </div>
@@ -2022,6 +2012,17 @@ Fundação|Há 2.000 anos"></textarea>
       </div>
 
       <div class="tab-panel" id="tab-settings">
+      <div style="margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--border)">
+        <p style="font-size:13px;color:var(--text2);margin-bottom:12px">Configure o <strong>Supabase</strong>. Cole a URL e a chave <code>anon public</code> em <strong>Settings → API</strong>.</p>
+        <div class="two-col">
+          <div class="field-group"><label class="field-label">Supabase URL</label><input class="field-input" id="cfg-url" placeholder="https://xxxx.supabase.co" type="url"></div>
+          <div class="field-group"><label class="field-label">Anon Public Key</label><input class="field-input" id="cfg-key" placeholder="eyJhbGc..." type="text"></div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;margin-top:8px">
+          <button class="btn-primary btn-small" onclick="saveSupabaseCfg()" style="width:auto">Salvar Config</button>
+          <span id="cfg-msg" style="font-size:12px;color:var(--gold);font-style:italic"></span>
+        </div>
+      </div>
       <div class="field-group" style="margin-bottom:12px">
         <label class="field-label">🎵 URL da Música Ambiente</label>
         <input class="field-input" id="cfg-music" placeholder="URL do MP3 no Supabase Storage...">
@@ -4507,6 +4508,15 @@ function doLogin(){if(document.getElementById('pw-input').value===getStoredPw())
 function doLogout(){adminLoggedIn=false;updateTlAddBtn();document.getElementById('login-panel').style.display='block';document.getElementById('admin-content').style.display='none';closeAdmin();}
 function changePw(){const p1=document.getElementById('new-pw').value,p2=document.getElementById('new-pw2').value,msg=document.getElementById('pw-msg');if(!p1){msg.style.color='var(--red2)';msg.textContent='Digite a nova senha.';return;}if(p1!==p2){msg.style.color='var(--red2)';msg.textContent='As senhas não conferem.';return;}localStorage.setItem(ADMIN_PW_KEY,p1);msg.style.color='var(--gold)';msg.textContent='✓ Senha alterada!';document.getElementById('new-pw').value='';document.getElementById('new-pw2').value='';setTimeout(()=>msg.textContent='',3000);}
 function switchTab(id){
+  if(id==='tab-settings'){
+    // Load current values into fields
+    const urlEl=document.getElementById('cfg-url');
+    const keyEl=document.getElementById('cfg-key');
+    const musicEl=document.getElementById('cfg-music');
+    if(urlEl) urlEl.value=localStorage.getItem('flagelo_sb_url')||'';
+    if(keyEl) keyEl.value=localStorage.getItem('flagelo_sb_key')||'';
+    if(musicEl) musicEl.value=localStorage.getItem('flagelo_music_url')||'';
+  }
   const names=['tab-new','tab-manage','tab-storage','tab-settings'];
   document.querySelectorAll('#admin-tabs .a-tab').forEach((el,i)=>el.classList.toggle('active',names[i]===id));
   document.querySelectorAll('#admin-modal .tab-panel').forEach(el=>el.classList.remove('active'));
@@ -5143,21 +5153,7 @@ function magStopParticles(){
 // ═══════════════════════════════════════
 // BESTIÁRIO — LOGBOOK
 // ═══════════════════════════════════════
-const BEST_HARDCODED = [
-  {
-    id: 'b1',
-    name: 'Cão Flagelado',
-    type: 'Mamífero Flagelado',
-    danger: 'alto',
-    habitat: 'Wildlands, Arredores de Dark Well',
-    size: 'Médio (cão adulto)',
-    flagelo: 'sim',
-    image_url: IMGS['bestiario_dog'] || null,
-    descricao: 'O cão flagelado é o resultado de um animal doméstico ou selvagem que sucumbiu aos estágios avançados do Flagelo. O que resta mal se assemelha a um cão — a pele apodrecida pende em tiras, os olhos perderam qualquer brilho e a mandíbula frequentemente está parcialmente deslocada, revelando dentes escurecidos. A criatura arrasta os membros traseiros com dificuldade mas demonstra velocidade surpreendente em curtos ataques.',
-    behavior: 'Age em matilhas de 3 a 8 indivíduos. Não late — emite um som gutural contínuo, quase mecânico. Ataca qualquer ser vivo sem discriminação. Diferente dos reanimados humanos, os cães flagelados demonstram uma agressividade constante e não periódica, tornando-os mais previsíveis mas igualmente letais em grupo. Mordidas transmitem o Flagelo com alta eficiência.',
-    notes: 'Manter distância. Fogo é eficaz. Em caso de mordida, reportar imediatamente à Academia. Não tentar domesticar — comportamento dócil nunca foi registrado após a infecção.'
-  }
-];
+const BEST_HARDCODED = [];
 
 let bestEntries = [];
 let bestActiveId = null;
