@@ -1393,6 +1393,97 @@ body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
 #music-vol::-webkit-slider-thumb{appearance:none;width:8px;height:8px;
   border-radius:50%;background:var(--gold);cursor:pointer}
 
+
+/* ── FACÇÕES ────────────────────────────────── */
+.fac-wrap{display:flex;gap:0;height:100%;min-height:600px}
+.fac-list{width:230px;flex-shrink:0;border-right:1px solid var(--border);
+  background:var(--bg2);display:flex;flex-direction:column;overflow-y:auto}
+.fac-list::-webkit-scrollbar{width:3px}
+.fac-list::-webkit-scrollbar-thumb{background:var(--border2)}
+.fac-list-header{padding:14px 16px 10px;border-bottom:1px solid var(--border);flex-shrink:0;
+  display:flex;align-items:center;justify-content:space-between}
+.fac-list-title{font-family:'Cinzel',serif;font-size:10px;color:var(--gold);letter-spacing:0.15em;text-transform:uppercase}
+.fac-item{padding:12px 16px;border-bottom:1px solid rgba(37,37,48,0.5);cursor:pointer;transition:background 0.15s}
+.fac-item:hover{background:rgba(201,162,82,0.04)}
+.fac-item.active{background:rgba(201,162,82,0.08);border-left:2px solid var(--gold);padding-left:14px}
+.fac-item-name{font-family:'Cinzel',serif;font-size:12px;color:var(--text);margin-bottom:4px}
+.fac-item-bar-wrap{height:3px;background:var(--border);overflow:hidden;border-radius:1px}
+.fac-item-bar{height:100%;border-radius:1px;transition:width 0.6s ease}
+/* detail */
+.fac-detail{flex:1;overflow-y:auto;display:flex;flex-direction:column}
+.fac-detail::-webkit-scrollbar{width:4px}
+.fac-detail::-webkit-scrollbar-thumb{background:var(--border2)}
+.fac-empty{flex:1;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;color:var(--text3)}
+.fac-empty-icon{font-size:28px;opacity:0.3}
+.fac-empty-text{font-family:'Cinzel',serif;font-size:10px;letter-spacing:0.15em;opacity:0.5}
+/* header */
+.fac-header{position:relative;height:200px;overflow:hidden;flex-shrink:0;background:var(--bg2)}
+.fac-header-bg{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-size:100px;opacity:0.06}
+.fac-header-grad{position:absolute;inset:0;background:linear-gradient(0deg,var(--bg) 0%,transparent 100%)}
+.fac-header-content{position:absolute;bottom:20px;left:24px;right:24px}
+.fac-header-name{font-family:'Cinzel',serif;font-size:26px;color:var(--white);font-weight:700;margin-bottom:4px}
+.fac-header-role{font-size:13px;color:var(--text2);font-style:italic}
+/* body */
+.fac-body{padding:20px 24px;flex:1}
+/* influence bars */
+.fac-bars{background:var(--panel);border:1px solid var(--border);padding:14px 16px;margin-bottom:16px}
+.fac-bars-title{font-family:'Cinzel',serif;font-size:8.5px;color:var(--gold);letter-spacing:0.15em;
+  text-transform:uppercase;margin-bottom:12px}
+.fac-bar-row{margin-bottom:10px}
+.fac-bar-label{display:flex;justify-content:space-between;margin-bottom:4px}
+.fac-bar-name{font-size:12px;color:var(--text2);font-family:'Cinzel',serif;font-size:10px;letter-spacing:0.05em}
+.fac-bar-val{font-size:10px;color:var(--text3)}
+.fac-bar-track{height:6px;background:var(--border);border-radius:0;overflow:hidden}
+.fac-bar-fill{height:100%;border-radius:0;transition:width 0.8s cubic-bezier(0.4,0,0.2,1)}
+.fac-bar-fill.influencia{background:linear-gradient(90deg,rgba(201,162,82,0.4),rgba(201,162,82,0.9))}
+.fac-bar-fill.poder{background:linear-gradient(90deg,rgba(100,120,220,0.4),rgba(120,140,240,0.9))}
+.fac-bar-fill.recursos{background:linear-gradient(90deg,rgba(80,180,100,0.4),rgba(100,200,120,0.9))}
+.fac-bar-fill.militarismo{background:linear-gradient(90deg,rgba(176,48,48,0.4),rgba(200,60,60,0.9))}
+/* relations */
+.fac-relations{margin-bottom:16px}
+.fac-rel-title{font-family:'Cinzel',serif;font-size:8.5px;color:var(--gold);letter-spacing:0.15em;
+  text-transform:uppercase;border-bottom:1px solid var(--border);padding-bottom:6px;margin-bottom:10px}
+.fac-rel-row{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid rgba(37,37,48,0.4)}
+.fac-rel-row:last-child{border-bottom:none}
+.fac-rel-avatar{width:32px;height:32px;border-radius:50%;object-fit:cover;flex-shrink:0;border:1px solid var(--border2)}
+.fac-rel-avatar-empty{width:32px;height:32px;border-radius:50%;background:var(--panel);border:1px solid var(--border2);
+  display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;color:var(--text3)}
+.fac-rel-name{flex:1;font-size:13px;color:var(--text)}
+.fac-rel-badge{font-family:'Cinzel',serif;font-size:8px;letter-spacing:0.08em;padding:2px 8px;border:1px solid}
+.fac-rel-badge.aliado{border-color:rgba(80,180,100,0.5);color:#80d890;background:rgba(80,180,100,0.06)}
+.fac-rel-badge.neutro{border-color:var(--border2);color:var(--text3)}
+.fac-rel-badge.suspeito{border-color:rgba(200,160,60,0.5);color:#c8a030;background:rgba(200,160,60,0.06)}
+.fac-rel-badge.hostil{border-color:rgba(176,48,48,0.5);color:var(--red2);background:rgba(122,26,26,0.08)}
+.fac-rel-badge.membro{border-color:var(--gold-dim);color:var(--gold);background:var(--gold-glow)}
+/* reputation meter */
+.fac-rep-meter{background:#08080e;border:1px solid #1a1a25;padding:14px 16px;margin-bottom:16px;position:relative}
+.fac-rep-meter::before{content:'MEDIDOR DE REPUTAÇÃO';position:absolute;top:-8px;left:14px;
+  font-family:'Cinzel',serif;font-size:7px;letter-spacing:0.18em;color:#2a2a35;background:#08080e;padding:0 6px}
+.fac-rep-track{height:12px;background:#050508;border:1px solid #12121c;margin:8px 0;position:relative;overflow:hidden}
+.fac-rep-fill{height:100%;transition:width 0.8s cubic-bezier(0.4,0,0.2,1);position:relative}
+.fac-rep-fill::after{content:'';position:absolute;right:0;top:0;bottom:0;width:2px;background:rgba(255,255,255,0.4)}
+.fac-rep-labels{display:flex;justify-content:space-between;font-family:'Cinzel',serif;font-size:7px;color:#333;letter-spacing:0.08em}
+.fac-rep-val{text-align:center;font-family:'Cinzel',serif;font-size:11px;color:var(--text2);margin-top:6px}
+/* desc */
+.fac-p{font-size:14px;line-height:1.85;color:var(--text2);margin-bottom:10px}
+.fac-p strong{color:var(--text);font-weight:600}
+.fac-section-label{font-family:'Cinzel',serif;font-size:8.5px;color:var(--gold);letter-spacing:0.15em;
+  text-transform:uppercase;border-bottom:1px solid var(--border);padding-bottom:5px;margin:14px 0 8px}
+/* modal */
+#fac-modal-overlay{display:none;position:fixed;inset:0;z-index:600;
+  background:rgba(0,0,0,0.88);backdrop-filter:blur(6px);align-items:center;justify-content:center}
+#fac-modal-overlay.show{display:flex}
+#fac-modal{background:var(--bg2);border:1px solid var(--border2);width:620px;max-width:96vw;max-height:92vh;overflow-y:auto}
+#fac-modal-header{padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;
+  justify-content:space-between;position:sticky;top:0;background:var(--bg2);z-index:1}
+#fac-modal-header h3{font-family:'Cinzel',serif;font-size:13px;color:var(--gold);letter-spacing:0.06em}
+#fac-modal-body{padding:16px 18px}
+#fac-modal-footer{padding:12px 18px;border-top:1px solid var(--border);display:flex;gap:8px;
+  position:sticky;bottom:0;background:var(--bg2)}
+.fac-rel-edit-row{display:flex;gap:6px;align-items:center;margin-bottom:6px}
+.fac-rel-edit-row select{flex:1}
+
 /* char nav button */
 #open-chars-btn{width:100%;background:rgba(201,162,82,0.06);border-top:1px solid var(--border);padding:9px 16px;color:var(--text2);font-family:'Cinzel',serif;font-size:10px;letter-spacing:0.08em;cursor:pointer;text-align:left;transition:all 0.2s}
 #open-chars-btn:hover{color:var(--gold);background:var(--gold-glow)}
@@ -1434,6 +1525,7 @@ body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
 <div class="nav-item" onclick="navTo('ressonador')" id="nav-ressonador"><span class="nav-icon">⊕</span>Ressonador Anímico</div>
 <div class="nav-item" onclick="navTo('timeline')" id="nav-timeline"><span class="nav-icon">⟳</span>Linha do Tempo</div>
 <div class="nav-item" onclick="navTo('bestiario')" id="nav-bestiario"><span class="nav-icon">📖</span>Logbook de Criaturas</div>
+<div class="nav-item" onclick="navTo('faccoes')" id="nav-faccoes"><span class="nav-icon">⚑</span>Facções</div>
 </div>
 <div class="nav-section"><div class="nav-section-title">Cidades</div>
 <div class="nav-item" onclick="navTo('darkwell')" id="nav-darkwell"><span class="nav-icon">◉</span>Dark Well</div>
@@ -3670,6 +3762,89 @@ bestiario: {
   `,
 },
 
+
+faccoes: {
+  title: 'Facções',
+  breadcrumb: 'Grande Britânia',
+  tags: ['Política','Poder','Influência'],
+  hero: null,
+  type: 'Facções de Britânia',
+  render: () => `
+    <div class="fac-wrap" id="fac-wrap">
+      <div class="fac-list">
+        <div class="fac-list-header">
+          <div class="fac-list-title">Facções</div>
+          <button id="fac-edit-btn" onclick="facOpenModal(null)" style="display:none;background:rgba(201,162,82,0.07);border:1px solid var(--gold-dim);color:var(--gold);font-family:'Cinzel',serif;font-size:9px;padding:4px 8px;cursor:pointer">+</button>
+        </div>
+        <div id="fac-items-list"></div>
+      </div>
+      <div class="fac-detail" id="fac-detail">
+        <div class="fac-empty">
+          <div class="fac-empty-icon">⚑</div>
+          <div class="fac-empty-text">Selecione uma facção</div>
+        </div>
+      </div>
+    </div>
+    <div id="fac-modal-overlay">
+      <div id="fac-modal">
+        <div id="fac-modal-header">
+          <h3 id="fac-modal-title">Editar Facção</h3>
+          <button onclick="facCloseModal()" style="background:rgba(122,26,26,0.15);border:1px solid rgba(122,26,26,0.4);color:var(--red2);width:26px;height:26px;cursor:pointer;font-size:13px">✕</button>
+        </div>
+        <div id="fac-modal-body">
+          <div class="two-col" style="margin-bottom:10px">
+            <div class="field-group"><label class="field-label">Nome</label>
+              <input class="field-input" id="fac-name" placeholder="Nome da facção"></div>
+            <div class="field-group"><label class="field-label">Ícone (emoji)</label>
+              <input class="field-input" id="fac-icon" placeholder="⚔ 🏛 📚" style="font-size:18px"></div>
+          </div>
+          <div class="field-group" style="margin-bottom:10px">
+            <label class="field-label">Papel / Descrição curta</label>
+            <input class="field-input" id="fac-role" placeholder="Ex: O governo central de Britânia">
+          </div>
+          <div class="field-group" style="margin-bottom:10px">
+            <label class="field-label">Descrição completa</label>
+            <textarea class="field-textarea" id="fac-desc" style="min-height:80px"></textarea>
+          </div>
+          <div class="field-group" style="margin-bottom:10px">
+            <label class="field-label">Objetivos</label>
+            <textarea class="field-textarea" id="fac-goals" style="min-height:60px"></textarea>
+          </div>
+          <div style="margin-bottom:10px">
+            <label class="field-label" style="display:block;margin-bottom:8px">Métricas (0–100)</label>
+            <div class="two-col">
+              <div class="field-group"><label class="field-label">Influência política</label>
+                <input class="field-input" id="fac-influencia" type="number" min="0" max="100" value="50"></div>
+              <div class="field-group"><label class="field-label">Poder (arcano/militar)</label>
+                <input class="field-input" id="fac-poder" type="number" min="0" max="100" value="50"></div>
+            </div>
+            <div class="two-col" style="margin-top:8px">
+              <div class="field-group"><label class="field-label">Recursos / Riqueza</label>
+                <input class="field-input" id="fac-recursos" type="number" min="0" max="100" value="50"></div>
+              <div class="field-group"><label class="field-label">Militarismo</label>
+                <input class="field-input" id="fac-militarismo" type="number" min="0" max="100" value="20"></div>
+            </div>
+          </div>
+          <div class="field-group" style="margin-bottom:10px">
+            <label class="field-label">Cor da facção (hex)</label>
+            <input class="field-input" id="fac-color" placeholder="Ex: C9A252" style="width:160px">
+          </div>
+          <div style="margin-bottom:10px">
+            <label class="field-label" style="display:block;margin-bottom:8px">Relação com Personagens</label>
+            <div id="fac-rels-list"></div>
+            <button onclick="facAddRel()" style="background:rgba(201,162,82,0.07);border:1px solid var(--gold-dim);color:var(--gold);font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.08em;padding:6px 12px;cursor:pointer;width:100%;margin-top:4px">+ Adicionar Personagem</button>
+          </div>
+          <div id="fac-modal-msg" style="padding:4px 0;font-size:12px;font-style:italic;color:var(--gold)"></div>
+        </div>
+        <div id="fac-modal-footer">
+          <button class="btn-primary" onclick="facSave()" style="flex:1">✦ Salvar</button>
+          <button class="btn-danger btn-small" id="fac-del-btn" onclick="facDelete()" style="display:none">Excluir</button>
+        </div>
+      </div>
+    </div>
+  `,
+},
+
 sanguinius: {
   title: 'Sanguinius, o Anjo',
   breadcrumb: 'Religião · Divindades',
@@ -5060,6 +5235,8 @@ showPage=function(id){
   if(id==='alquimia') setTimeout(alqInitParticles,100);
   if(id==='magia'){setTimeout(magInitParticles,300);}else{magStopParticles();const art=document.getElementById('article');if(art)art.classList.remove('full-width');}
   if(id==='bestiario') setTimeout(bestLoad,100);
+  if(id==='faccoes') setTimeout(facLoad,100);
+  if(id==='faccoes') setTimeout(facLoad,100);
 };
 
 
@@ -5428,6 +5605,300 @@ function saveMusic(){
   musicSetUrl(url);
   msg.style.color='var(--gold)';msg.textContent='✓ Tocando!';
   setTimeout(()=>msg.textContent='',2500);
+}
+
+
+// ═══════════════════════════════════════
+// FACÇÕES
+// ═══════════════════════════════════════
+const FAC_HARDCODED = [
+  { id:'f1', name:'Conselho de Britânia', icon:'🏛', color:'C9A252',
+    role:'O governo central de Grande Britânia',
+    desc:'O Conselho de Britânia é o corpo governante supremo da nação, composto por doze representantes eleitos das principais cidades e guildas. Responsável por todas as decisões legislativas, militares e diplomáticas, o Conselho opera de Dark Well e é a face pública do poder em Britânia. Com o surgimento do Flagelo, o Conselho enfrenta sua maior crise — e sua maior divisão interna.',
+    goals:'Manter a ordem pública, conter o Flagelo sem gerar pânico, preservar a paz com as nações vizinhas e manter o monopólio político sobre Dark Well.',
+    influencia:90, poder:70, recursos:85, militarismo:45,
+    relations:[] },
+  { id:'f2', name:'Academia de Darkwell', icon:'⚗', color:'80c8e8',
+    role:'Centro de ciência, pesquisa e conhecimento técnico',
+    desc:'A Academia de Darkwell é a instituição científica mais importante de Britânia. Responsável pelo estudo das Ondas de Willtempuor, do Lobril, da Alquimia e de praticamente toda tecnologia que move a nação. A Academia também guarda segredos — incluindo os projetos de Elias e o processo de criação dos Ressonantes.',
+    goals:'Avançar o conhecimento científico, manter o monopólio tecnológico, investigar o Flagelo e preservar os arquivos de Elias longe de mãos erradas.',
+    influencia:75, poder:80, recursos:70, militarismo:15,
+    relations:[] },
+  { id:'f3', name:'Basílica do Sangue Imortal', icon:'✦', color:'D4932A',
+    role:'Ordem religiosa de curandeiros e sacerdotes',
+    desc:'A Basílica do Sangue Imortal é a principal ordem religiosa de Britânia, dedicada ao culto do Sangue Imortal e à prática da cura através da Graça. Seus Loreholders são os únicos praticantes de magia reconhecidos pela lei — pois a ciência classificou seus poderes como "fenômeno biológico da Graça", não como magia. Com o Flagelo, a Basílica tornou-se essencial e politicamente poderosa.',
+    goals:'Curar os infectados, expandir a influência da Basílica nas decisões do Conselho, investigar a relação entre o Flagelo e forças sobrenaturais, e proteger seus segredos mais antigos.',
+    influencia:65, poder:60, recursos:55, militarismo:10,
+    relations:[] },
+  { id:'f4', name:'Biblioteca de Pactos', icon:'📚', color:'9B6B9B',
+    role:'Guardiã do conhecimento proibido e dos tratados históricos',
+    desc:'A Biblioteca de Pactos é uma instituição independente que não responde ao Conselho nem à Academia. Seus arquivistas coletam, preservam e — seletivamente — revelam conhecimentos considerados perigosos demais para circulação pública. Diz-se que a Biblioteca possui cópias dos projetos originais de Elias, registros da magia de glifos e tratados com entidades que ninguém mais se lembra de ter assinado.',
+    goals:'Preservar o conhecimento em todas as formas, negociar informações por influência, manter neutralidade política e jamais destruir nenhum documento — independentemente do conteúdo.',
+    influencia:50, poder:45, recursos:60, militarismo:5,
+    relations:[] },
+  { id:'f5', name:'Alquimistas Federais', icon:'⚙', color:'C8A030',
+    role:'Braço científico armado do governo',
+    desc:'Os Alquimistas Federais são selecionados anualmente pela Academia em parceria com o Conselho através de provas eliminatórias rigorosas. Funcionam como agentes do Estado — cientistas de campo com ampla autonomia e recursos praticamente ilimitados, mas que devem lealdade absoluta ao Conselho. São temidos, respeitados e frequentemente invejados pela Academia regular.',
+    goals:'Executar missões científicas e de segurança para o Conselho, monopolizar aplicações práticas da Alquimia, investigar ameaças ao Estado e suprimir práticas alquímicas não licenciadas.',
+    influencia:60, poder:75, recursos:80, militarismo:65,
+    relations:[] },
+  { id:'f6', name:'Guardas Regimentais', icon:'⚔', color:'8B4444',
+    role:'Força militar e policial de Britânia',
+    desc:'Os Guardas Regimentais são a espinha dorsal militar de Britânia — uma força policial e de combate que opera em todas as cidades sob o comando direto do Conselho. Com o Flagelo, seu papel mudou drasticamente: além da segurança pública, agora gerenciam quarentenas, controlam o fluxo de pessoas entre cidades e, em casos extremos, executam infectados em estado crítico de Ruptura.',
+    goals:'Manter a ordem pública, conter surtos do Flagelo, proteger autoridades do Conselho e responder a ameaças militares externas.',
+    influencia:55, poder:65, recursos:60, militarismo:90,
+    relations:[] },
+];
+
+let facData = [];
+let facActiveId = null;
+let facEditingId = null;
+let facRelsArr = [];
+
+async function facLoad() {
+  facData = FAC_HARDCODED.map(f => ({...f}));
+  // Try DB overlay
+  const url=(sbUrl||localStorage.getItem('flagelo_sb_url')||'').replace(/\/$/,'');
+  const key=sbKey||localStorage.getItem('flagelo_sb_key')||'';
+  if(url&&key){
+    try{
+      const res=await fetch(url+'/rest/v1/factions?select=*&order=sort_order.asc,created_at.asc',{
+        headers:{'apikey':key,'Authorization':'Bearer '+key,'Content-Type':'application/json'}
+      });
+      if(res.ok){
+        const db=await res.json();
+        // Merge: DB entries override hardcoded by name, extras appended
+        db.forEach(dbF=>{
+          const idx=facData.findIndex(f=>f.name===dbF.name);
+          const merged={...dbF, relations: dbF.relations||[]};
+          if(idx>=0) facData[idx]=merged;
+          else facData.push(merged);
+        });
+      }
+    }catch(e){}
+  }
+  facRenderList();
+  if(facData.length) facShowFaction(facData[0].id||facData[0].id);
+}
+
+function facRenderList(){
+  const list=document.getElementById('fac-items-list');
+  if(!list) return;
+  list.innerHTML=facData.map(f=>`
+    <div class="fac-item${f.id==facActiveId?' active':''}" onclick="facShowFaction('${f.id}')">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+        <span style="font-size:16px">${f.icon||'⚑'}</span>
+        <div class="fac-item-name">${f.name}</div>
+      </div>
+      <div class="fac-item-bar-wrap">
+        <div class="fac-item-bar" style="width:${f.influencia||0}%;background:rgba(${hexToRgb(f.color||'C9A252')},0.7)"></div>
+      </div>
+    </div>
+  `).join('');
+  const btn=document.getElementById('fac-edit-btn');
+  if(btn) btn.style.display=adminLoggedIn?'block':'none';
+}
+
+function hexToRgb(hex){
+  const r=parseInt(hex.slice(0,2),16),g=parseInt(hex.slice(2,4),16),b=parseInt(hex.slice(4,6),16);
+  return isNaN(r)?'201,162,82':`${r},${g},${b}`;
+}
+
+function facRepColor(pct){
+  if(pct>=75) return '#80d890';
+  if(pct>=50) return 'var(--gold)';
+  if(pct>=25) return '#c8a030';
+  return 'var(--red2)';
+}
+
+function facRepLabel(pct){
+  if(pct>=85) return 'Venerado';
+  if(pct>=70) return 'Aliado de Confiança';
+  if(pct>=55) return 'Amigável';
+  if(pct>=45) return 'Neutro';
+  if(pct>=30) return 'Desconfiado';
+  if(pct>=15) return 'Hostil';
+  return 'Inimigo Declarado';
+}
+
+function facRelColor(rel){
+  return {membro:'var(--gold)',aliado:'#80d890',neutro:'var(--text3)',suspeito:'#c8a030',hostil:'var(--red2)'}[rel]||'var(--text3)';
+}
+
+function facShowFaction(id){
+  const f=facData.find(x=>x.id==id||x.id===id);
+  if(!f) return;
+  facActiveId=f.id;
+  facRenderList();
+  const detail=document.getElementById('fac-detail');
+  if(!detail) return;
+  const rgb=hexToRgb(f.color||'C9A252');
+  const avgRep=f.relations&&f.relations.length
+    ?Math.round(f.relations.reduce((a,r)=>a+(r.reputation||50),0)/f.relations.length)
+    :50;
+
+  // Build relations HTML
+  let relsHtml='';
+  if(f.relations&&f.relations.length){
+    relsHtml=f.relations.map(r=>{
+      const ch=Object.values(characters).find(c=>{const cd=c._charData||{};return cd.name===r.name;});
+      const thumb=ch?._charData?.thumb||ch?.image_url||null;
+      const avatarHtml=thumb
+        ?`<img class="fac-rel-avatar" src="${thumb}" alt="${r.name}">`
+        :`<div class="fac-rel-avatar-empty">${(r.name||'?')[0]}</div>`;
+      return`<div class="fac-rel-row">
+        ${avatarHtml}
+        <div class="fac-rel-name">${r.name}</div>
+        <span class="fac-rel-badge ${r.relation||'neutro'}" style="color:${facRelColor(r.relation||'neutro')}">${{membro:'Membro',aliado:'Aliado',neutro:'Neutro',suspeito:'Suspeito',hostil:'Hostil'}[r.relation]||r.relation}</span>
+      </div>`;
+    }).join('');
+  } else {
+    relsHtml='<p style="font-size:13px;color:var(--text3);font-style:italic">Nenhuma relação registrada.</p>';
+  }
+
+  detail.innerHTML=`
+    <div class="fac-header" style="background:radial-gradient(ellipse at 30% 60%,rgba(${rgb},0.15),var(--bg2) 70%)">
+      <div class="fac-header-bg">${f.icon||'⚑'}</div>
+      <div class="fac-header-grad"></div>
+      <div class="fac-header-content">
+        <div class="fac-header-name">${f.name}</div>
+        <div class="fac-header-role">${f.role||''}</div>
+      </div>
+    </div>
+    <div class="fac-body">
+      <div class="fac-bars">
+        <div class="fac-bars-title">Métricas de Poder</div>
+        ${[['Influência Política','influencia','influencia'],['Poder Arcano/Militar','poder','poder'],['Recursos & Riqueza','recursos','recursos'],['Militarismo','militarismo','militarismo']].map(([label,key,cls])=>`
+        <div class="fac-bar-row">
+          <div class="fac-bar-label">
+            <span class="fac-bar-name">${label}</span>
+            <span class="fac-bar-val">${f[key]||0}/100</span>
+          </div>
+          <div class="fac-bar-track">
+            <div class="fac-bar-fill ${cls}" style="width:${f[key]||0}%;background:linear-gradient(90deg,rgba(${rgb},0.3),rgba(${rgb},0.85))"></div>
+          </div>
+        </div>`).join('')}
+      </div>
+
+      <div class="fac-rep-meter">
+        <div style="font-size:11px;color:var(--text3);margin-bottom:6px">Reputação média do grupo</div>
+        <div class="fac-rep-track">
+          <div class="fac-rep-fill" style="width:${avgRep}%;background:linear-gradient(90deg,rgba(${rgb},0.3),rgba(${rgb},0.9))"></div>
+        </div>
+        <div class="fac-rep-labels"><span>Inimigo</span><span>Neutro</span><span>Aliado</span><span>Venerado</span></div>
+        <div class="fac-rep-val" style="color:${facRepColor(avgRep)}">${facRepLabel(avgRep)}</div>
+      </div>
+
+      ${(f.descricao||f.desc)?`<div class="fac-section-label">Sobre a Facção</div><p class="fac-p">${f.descricao||f.desc}</p>`:''}
+      ${f.goals?`<div class="fac-section-label">Objetivos</div><p class="fac-p">${f.goals}</p>`:''}
+
+      <div class="fac-relations">
+        <div class="fac-rel-title">Relação com Personagens</div>
+        ${relsHtml}
+      </div>
+
+      ${adminLoggedIn?`<button class="char-edit-btn" style="margin-top:8px" onclick="facOpenModal('${f.id}')">✎ Editar Facção</button>`:''}
+    </div>
+  `;
+  // Animate bars
+  setTimeout(()=>{
+    detail.querySelectorAll('.fac-bar-fill,.fac-rep-fill').forEach(el=>{
+      const w=el.style.width; el.style.width='0'; 
+      setTimeout(()=>el.style.width=w,50);
+    });
+  },50);
+}
+
+function facOpenModal(id){
+  const f=id?facData.find(x=>x.id==id):null;
+  facEditingId=id||null;
+  document.getElementById('fac-modal-title').textContent=f?'✎ Editar Facção':'+ Nova Facção';
+  document.getElementById('fac-name').value=f?.name||'';
+  document.getElementById('fac-icon').value=f?.icon||'';
+  document.getElementById('fac-role').value=f?.role||'';
+  document.getElementById('fac-desc').value=f?.desc||'';
+  document.getElementById('fac-goals').value=f?.goals||'';
+  document.getElementById('fac-influencia').value=f?.influencia||50;
+  document.getElementById('fac-poder').value=f?.poder||50;
+  document.getElementById('fac-recursos').value=f?.recursos||50;
+  document.getElementById('fac-militarismo').value=f?.militarismo||20;
+  document.getElementById('fac-color').value=f?.color||'C9A252';
+  facRelsArr=f?.relations?JSON.parse(JSON.stringify(f.relations)):[];
+  facRenderRels();
+  document.getElementById('fac-del-btn').style.display=f&&typeof f.id==='number'?'block':'none';
+  document.getElementById('fac-modal-msg').textContent='';
+  document.getElementById('fac-modal-overlay').classList.add('show');
+}
+
+function facCloseModal(){ document.getElementById('fac-modal-overlay').classList.remove('show'); }
+
+function facRenderRels(){
+  const list=document.getElementById('fac-rels-list');
+  if(!list) return;
+  // Build char options from loaded characters
+  const charNames=Object.values(characters).map(c=>(c._charData||{}).name||c.title).filter(Boolean);
+  list.innerHTML=facRelsArr.map((r,i)=>`
+    <div class="fac-rel-edit-row">
+      <select class="field-select" style="flex:2" onchange="facRelsArr[${i}].name=this.value">
+        <option value="">— Personagem —</option>
+        ${charNames.map(n=>`<option value="${n}"${r.name===n?' selected':''}>${n}</option>`).join('')}
+      </select>
+      <select class="field-select" style="flex:1" onchange="facRelsArr[${i}].relation=this.value">
+        ${['membro','aliado','neutro','suspeito','hostil'].map(rel=>`<option value="${rel}"${r.relation===rel?' selected':''}>${{membro:'Membro',aliado:'Aliado',neutro:'Neutro',suspeito:'Suspeito',hostil:'Hostil'}[rel]}</option>`).join('')}
+      </select>
+      <input class="field-input" type="number" min="0" max="100" value="${r.reputation||50}" 
+        placeholder="Rep." style="width:60px;padding:6px 8px" title="Reputação (0-100)"
+        oninput="facRelsArr[${i}].reputation=parseInt(this.value)||50">
+      <button onclick="facRelsArr.splice(${i},1);facRenderRels()" 
+        style="background:rgba(122,26,26,0.2);border:1px solid rgba(122,26,26,0.4);color:var(--red2);width:26px;height:26px;cursor:pointer;flex-shrink:0">✕</button>
+    </div>
+  `).join('');
+}
+
+function facAddRel(){
+  facRelsArr.push({name:'',relation:'neutro',reputation:50});
+  facRenderRels();
+}
+
+async function facSave(){
+  const name=document.getElementById('fac-name').value.trim();
+  const msg=document.getElementById('fac-modal-msg');
+  if(!name){msg.style.color='var(--red2)';msg.textContent='Nome obrigatório.';return;}
+  const payload={
+    name, icon:document.getElementById('fac-icon').value.trim(),
+    role:document.getElementById('fac-role').value.trim(),
+    descricao:document.getElementById('fac-desc').value.trim(),
+    goals:document.getElementById('fac-goals').value.trim(),
+    influencia:parseInt(document.getElementById('fac-influencia').value)||50,
+    poder:parseInt(document.getElementById('fac-poder').value)||50,
+    recursos:parseInt(document.getElementById('fac-recursos').value)||50,
+    militarismo:parseInt(document.getElementById('fac-militarismo').value)||20,
+    color:document.getElementById('fac-color').value.trim()||'C9A252',
+    relations:facRelsArr.filter(r=>r.name),
+  };
+  msg.style.color='var(--text3)';msg.textContent='Salvando...';
+  const result=typeof facEditingId==='number'
+    ?await sbFetch('factions?id=eq.'+facEditingId,'PATCH',payload)
+    :await sbFetch('factions','POST',payload);
+  if(result!==null){
+    msg.style.color='var(--gold)';msg.textContent='✓ Salvo!';
+    await facLoad();
+    setTimeout(facCloseModal,600);
+  } else {
+    // Save locally on hardcoded faction
+    const idx=facData.findIndex(f=>f.id===facEditingId);
+    if(idx>=0){Object.assign(facData[idx],payload);facRenderList();facShowFaction(facEditingId);}
+    msg.style.color='var(--gold)';msg.textContent='✓ Salvo localmente.';
+    setTimeout(facCloseModal,600);
+  }
+}
+
+async function facDelete(){
+  if(!facEditingId||!confirm('Excluir esta facção do banco?')) return;
+  await sbFetch('factions?id=eq.'+facEditingId,'DELETE');
+  facActiveId=null;
+  await facLoad();
+  facCloseModal();
 }
 
 async function init(){
