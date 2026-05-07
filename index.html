@@ -6115,10 +6115,12 @@ function relRenderLines(){
     return `
       <line x1="${a.x}" y1="${a.y}" x2="${b.x}" y2="${b.y}"
         stroke="${color}" stroke-width="${w}" ${dash} opacity="0.65"
+        data-idx="${i}"
         style="cursor:pointer;pointer-events:stroke"
         onmouseenter="relLineHover(event,${i})" onmouseleave="relHideTooltip()"
         onclick="relLineClick(event,${i})"/>
       <circle cx="${mx}" cy="${my}" r="5" fill="${color}" opacity="0.5"
+        data-idx="${i}"
         style="cursor:pointer;pointer-events:all"
         onmouseenter="relLineHover(event,${i})" onmouseleave="relHideTooltip()"
         onclick="relLineClick(event,${i})"/>
@@ -6149,6 +6151,7 @@ function relRender(){
   relRenderLines();
   relRenderNodes();
   relApplyTransform();
+  if(relSelectedNode) setTimeout(()=>relHighlightNode(relSelectedNode),50);
 }
 
 // ── Zoom ──
@@ -6225,14 +6228,76 @@ function relCanvasUp(e){
 
 function relCanvasClick(e){
   document.getElementById('rel-tooltip').style.display='none';
+  if(!e.target.closest('.rel-node')) relClearHighlight();
 }
+
+let relSelectedNode=null;
 
 function relNodeDown(e,id){
   if(e.button!==0) return;
   e.preventDefault();e.stopPropagation();
   relDragging=id;
+  // Toggle selection highlight
+  if(relSelectedNode===id){
+    relSelectedNode=null;
+    relClearHighlight();
+  } else {
+    relSelectedNode=id;
+    relHighlightNode(id);
+  }
   document.addEventListener('mousemove',relCanvasMove);
   document.addEventListener('mouseup',relCanvasUp);
+}
+
+function relHighlightNode(id){
+  // Find connected nodes
+  const connected=new Set([id]);
+  relConns.forEach(c=>{
+    const a=c.char_a||c.a, b=c.char_b||c.b;
+    if(a===id) connected.add(b);
+    if(b===id) connected.add(a);
+  });
+  // Dim unconnected nodes
+  Object.keys(relNodes).forEach(nid=>{
+    const el=document.getElementById('reln-'+nid);
+    if(!el) return;
+    el.style.opacity=connected.has(nid)?'1':'0.15';
+    el.style.transition='opacity 0.3s';
+  });
+  // Dim unconnected lines
+  const svg=document.getElementById('rel-svg');
+  if(svg){
+    svg.querySelectorAll('line').forEach(line=>{
+      const idx=parseInt(line.getAttribute('data-idx')||'-1');
+      if(idx<0) return;
+      const c=relConns[idx];
+      const a=c?.char_a||c?.a, b=c?.char_b||c?.b;
+      const conn=(a===id||b===id);
+      line.style.opacity=conn?'0.9':'0.05';
+      line.style.transition='opacity 0.3s';
+    });
+    svg.querySelectorAll('circle').forEach(circle=>{
+      const idx=parseInt(circle.getAttribute('data-idx')||'-1');
+      if(idx<0) return;
+      const c=relConns[idx];
+      const a=c?.char_a||c?.a, b=c?.char_b||c?.b;
+      const conn=(a===id||b===id);
+      circle.style.opacity=conn?'0.8':'0.05';
+    });
+  }
+}
+
+function relClearHighlight(){
+  relSelectedNode=null;
+  Object.keys(relNodes).forEach(nid=>{
+    const el=document.getElementById('reln-'+nid);
+    if(el){el.style.opacity='1';}
+  });
+  const svg=document.getElementById('rel-svg');
+  if(svg){
+    svg.querySelectorAll('line').forEach(l=>l.style.opacity='0.65');
+    svg.querySelectorAll('circle').forEach(c=>c.style.opacity='0.5');
+  }
 }
 
 function relNodeDblClick(id){
