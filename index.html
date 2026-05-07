@@ -1765,7 +1765,7 @@ body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
     <div id="rel-legend">
       <div class="rel-legend-item"><div class="rel-legend-line" style="background:#5db87a"></div>Aliado</div>
       <div class="rel-legend-item"><div class="rel-legend-line" style="background:#444460"></div>Neutro</div>
-      <div class="rel-legend-item"><div class="rel-legend-line" style="background:#c8a030;height:1px;border-top:1px dashed #c8a030"></div>Desconhecido</div>
+      <div class="rel-legend-item"><div class="rel-legend-line" style="background:#c070c8;height:1px;border-top:1px dashed #c070c8"></div>Vínculo</div>
       <div class="rel-legend-item"><div class="rel-legend-line" style="background:#b03030"></div>Inimigo</div>
     </div>
     <button class="rel-tool-btn" onclick="relResetView()">↺ Centralizar</button>
@@ -1803,7 +1803,7 @@ body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
         <select class="field-select" id="rel-type">
           <option value="aliado">Aliado</option>
           <option value="neutro" selected>Neutro</option>
-          <option value="desconhecido">Desconhecido</option>
+          <option value="vinculo">Vínculo</option>
           <option value="inimigo">Inimigo</option>
         </select></div>
       <div class="field-group"><label class="field-label">Descrição</label>
@@ -4920,7 +4920,12 @@ async function loadAllEntries(){
   const charList=document.getElementById('nav-chars-list');
   if(charEntries.length){
     charSection.style.display='block';
-    charList.innerHTML=charEntries.map(e=>{
+    charList.innerHTML=[...charEntries].sort((a,b)=>{
+      let na='',nb='';
+      try{na=JSON.parse(a.char_data||'{}').name||a.title||'';}catch{}
+      try{nb=JSON.parse(b.char_data||'{}').name||b.title||'';}catch{}
+      return na.localeCompare(nb,'pt');
+    }).map(e=>{
       let cd={};try{cd=JSON.parse(e.char_data||'{}');}catch{}
       characters['char_'+e.id]=Object.assign({_charData:cd},e);
       const initials=(cd.name||e.title||'?').split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase();
@@ -6020,8 +6025,8 @@ async function facDelete(){
 // ═══════════════════════════════════════
 // MAPA DE RELAÇÕES — WHITEBOARD
 // ═══════════════════════════════════════
-const REL_COLORS={aliado:'#5db87a',neutro:'#444460',desconhecido:'#c8a030',inimigo:'#b03030'};
-const REL_LABELS={aliado:'Aliado',neutro:'Neutro',desconhecido:'Desconhecido',inimigo:'Inimigo'};
+const REL_COLORS={aliado:'#5db87a',neutro:'#444460',vinculo:'#c070c8',inimigo:'#b03030'};
+const REL_LABELS={aliado:'Aliado',neutro:'Neutro',vinculo:'Vínculo',inimigo:'Inimigo'};
 
 let relNodes={}, relConns=[], relEditingConn=null;
 let relScale=1, relOffX=0, relOffY=0;
@@ -6068,13 +6073,15 @@ function relBuildNodes(){
   const wrap=document.getElementById('rel-canvas');
   if(!wrap) return;
   const W=wrap.clientWidth||900, H=wrap.clientHeight||600;
-  const chars=Object.entries(characters);
+  const chars=Object.entries(characters).sort(([,a],[,b])=>{
+    const na=(a._charData?.name||a.title||'').toLowerCase();
+    const nb=(b._charData?.name||b.title||'').toLowerCase();
+    return na.localeCompare(nb,'pt');
+  });
   const count=chars.length;
   if(!count) return;
-  // Load saved positions
   let saved={};
   try{saved=JSON.parse(localStorage.getItem('rel_positions')||'{}');}catch(e){}
-  // Spiral layout for more spacing
   chars.forEach(([id,entry],i)=>{
     const cd=entry._charData||{};
     const angle=(2*Math.PI*i/count)-Math.PI/2;
@@ -6103,7 +6110,7 @@ function relRenderLines(){
     const a=relNodes[c.char_a||c.a],b=relNodes[c.char_b||c.b];
     if(!a||!b) return '';
     const color=REL_COLORS[c.type]||REL_COLORS.neutro;
-    const dash=c.type==='desconhecido'?'stroke-dasharray="8,5"':c.type==='inimigo'?'stroke-dasharray="3,4"':'';
+    const dash=c.type==='vinculo'?'stroke-dasharray="8,5"':c.type==='inimigo'?'stroke-dasharray="3,4"':'';
     const w=c.type==='aliado'?2.5:1.8;
     // Mid label
     const mx=(a.x+b.x)/2, my=(a.y+b.y)/2;
