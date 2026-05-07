@@ -1484,6 +1484,56 @@ body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
 .fac-rel-edit-row{display:flex;gap:6px;align-items:center;margin-bottom:6px}
 .fac-rel-edit-row select{flex:1}
 
+
+/* ── MAPA DE RELAÇÕES ──────────────────────── */
+#rel-page{position:absolute;inset:0;display:none;flex-direction:column;background:var(--bg);z-index:5}
+#rel-page.active{display:flex}
+#rel-canvas-wrap{flex:1;position:relative;overflow:hidden;cursor:grab}
+#rel-canvas-wrap.grabbing{cursor:grabbing}
+#rel-svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+#rel-svg line{pointer-events:stroke;stroke-width:2;transition:opacity 0.2s}
+#rel-svg line:hover{opacity:0.8;stroke-width:3;cursor:pointer}
+.rel-node{position:absolute;transform:translate(-50%,-50%);cursor:pointer;user-select:none;
+  transition:filter 0.2s}
+.rel-node:hover{filter:brightness(1.15)}
+.rel-node:hover .rel-node-name{opacity:1;transform:translateY(0)}
+.rel-node-photo{width:72px;height:72px;border-radius:50%;object-fit:cover;border:2px solid var(--border2);
+  display:block;transition:border-color 0.2s,box-shadow 0.2s}
+.rel-node:hover .rel-node-photo{border-color:var(--gold);box-shadow:0 0 16px rgba(201,162,82,0.3)}
+.rel-node-initials{width:72px;height:72px;border-radius:50%;background:var(--panel);
+  border:2px solid var(--border2);display:flex;align-items:center;justify-content:center;
+  font-family:'Cinzel',serif;font-size:20px;color:var(--text3)}
+.rel-node-name{position:absolute;top:78px;left:50%;transform:translateX(-50%) translateY(4px);
+  white-space:nowrap;font-family:'Cinzel',serif;font-size:10px;color:var(--text);
+  background:rgba(12,12,16,0.85);padding:3px 8px;border:1px solid var(--border);
+  opacity:0;transition:opacity 0.2s,transform 0.2s;pointer-events:none;letter-spacing:0.06em}
+/* toolbar */
+#rel-toolbar{height:44px;border-bottom:1px solid var(--border);display:flex;align-items:center;
+  gap:8px;padding:0 16px;background:var(--bg2);flex-shrink:0}
+#rel-toolbar-title{font-family:'Cinzel',serif;font-size:10px;color:var(--gold);letter-spacing:0.15em;flex:1}
+.rel-tool-btn{background:var(--panel);border:1px solid var(--border);color:var(--text2);
+  font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.08em;padding:5px 12px;
+  cursor:pointer;transition:all 0.2s}
+.rel-tool-btn:hover{border-color:var(--gold-dim);color:var(--gold)}
+.rel-tool-btn.active{border-color:var(--gold);color:var(--gold);background:var(--gold-glow)}
+/* legend */
+#rel-legend{display:flex;gap:14px;align-items:center;padding:0 8px}
+.rel-legend-item{display:flex;align-items:center;gap:5px;font-size:10px;color:var(--text3)}
+.rel-legend-line{width:20px;height:2px;border-radius:1px}
+/* tooltip */
+#rel-tooltip{position:fixed;background:rgba(12,12,16,0.95);border:1px solid var(--border2);
+  padding:8px 12px;font-size:12px;color:var(--text);pointer-events:none;z-index:100;
+  display:none;max-width:200px;font-style:italic}
+/* add conn modal */
+#rel-modal-overlay{display:none;position:fixed;inset:0;z-index:600;
+  background:rgba(0,0,0,0.88);backdrop-filter:blur(6px);align-items:center;justify-content:center}
+#rel-modal-overlay.show{display:flex}
+#rel-modal{background:var(--bg2);border:1px solid var(--border2);width:420px;max-width:96vw}
+#rel-modal-header{padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+#rel-modal-header h3{font-family:'Cinzel',serif;font-size:13px;color:var(--gold);letter-spacing:0.06em}
+#rel-modal-body{padding:14px 16px;display:flex;flex-direction:column;gap:10px}
+#rel-modal-footer{padding:10px 16px;border-top:1px solid var(--border);display:flex;gap:8px}
+
 /* char nav button */
 #open-chars-btn{width:100%;background:rgba(201,162,82,0.06);border-top:1px solid var(--border);padding:9px 16px;color:var(--text2);font-family:'Cinzel',serif;font-size:10px;letter-spacing:0.08em;cursor:pointer;text-align:left;transition:all 0.2s}
 #open-chars-btn:hover{color:var(--gold);background:var(--gold-glow)}
@@ -1526,6 +1576,7 @@ body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
 <div class="nav-item" onclick="navTo('timeline')" id="nav-timeline"><span class="nav-icon">⟳</span>Linha do Tempo</div>
 <div class="nav-item" onclick="navTo('bestiario')" id="nav-bestiario"><span class="nav-icon">📖</span>Logbook de Criaturas</div>
 <div class="nav-item" onclick="navTo('faccoes')" id="nav-faccoes"><span class="nav-icon">⚑</span>Facções</div>
+<div class="nav-item" onclick="navTo('relacoes')" id="nav-relacoes"><span class="nav-icon">🕸</span>Mapa de Relações</div>
 </div>
 <div class="nav-section"><div class="nav-section-title">Cidades</div>
 <div class="nav-item" onclick="navTo('darkwell')" id="nav-darkwell"><span class="nav-icon">◉</span>Dark Well</div>
@@ -1701,6 +1752,65 @@ body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
       <button class="btn-danger btn-small" id="tl-delete-btn" onclick="deleteTlEvent()" style="display:none">Excluir</button>
     </div>
     <div id="tl-modal-msg" style="padding:0 18px 12px;font-size:12px;font-style:italic;color:var(--gold)"></div>
+  </div>
+</div>
+
+
+<!-- MAPA DE RELAÇÕES -->
+<div id="rel-page">
+  <div id="rel-toolbar">
+    <div id="rel-toolbar-title">⚑ Mapa de Relações</div>
+    <div id="rel-legend">
+      <div class="rel-legend-item"><div class="rel-legend-line" style="background:#80d890"></div>Aliado</div>
+      <div class="rel-legend-item"><div class="rel-legend-line" style="background:var(--border2)"></div>Neutro</div>
+      <div class="rel-legend-item"><div class="rel-legend-line" style="background:#c8a030"></div>Desconhecido</div>
+      <div class="rel-legend-item"><div class="rel-legend-line" style="background:var(--red2)"></div>Inimigo</div>
+    </div>
+    <button class="rel-tool-btn" onclick="relAutoLayout()">↺ Reorganizar</button>
+    <button class="rel-tool-btn" id="rel-add-btn" onclick="relOpenModal()" style="display:none">+ Conexão</button>
+  </div>
+  <div id="rel-canvas-wrap" id="rel-canvas">
+    <svg id="rel-svg" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <filter id="rel-glow"><feGaussianBlur stdDeviation="2" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+      </defs>
+    </svg>
+    <div id="rel-nodes"></div>
+  </div>
+  <div id="rel-tooltip"></div>
+</div>
+
+<!-- REL MODAL -->
+<div id="rel-modal-overlay">
+  <div id="rel-modal">
+    <div id="rel-modal-header">
+      <h3 id="rel-modal-title">+ Nova Conexão</h3>
+      <button onclick="relCloseModal()" style="background:rgba(122,26,26,0.15);border:1px solid rgba(122,26,26,0.4);color:var(--red2);width:26px;height:26px;cursor:pointer;font-size:13px">✕</button>
+    </div>
+    <div id="rel-modal-body">
+      <div class="two-col">
+        <div class="field-group"><label class="field-label">Personagem A</label>
+          <select class="field-select" id="rel-char-a"></select></div>
+        <div class="field-group"><label class="field-label">Personagem B</label>
+          <select class="field-select" id="rel-char-b"></select></div>
+      </div>
+      <div class="two-col">
+        <div class="field-group"><label class="field-label">Tipo</label>
+          <select class="field-select" id="rel-type">
+            <option value="aliado">Aliado</option>
+            <option value="neutro" selected>Neutro</option>
+            <option value="desconhecido">Desconhecido</option>
+            <option value="inimigo">Inimigo</option>
+          </select></div>
+        <div class="field-group"><label class="field-label">Descrição</label>
+          <input class="field-input" id="rel-desc" placeholder="Ex: Cresceram juntos em Oreska"></div>
+      </div>
+      <div id="rel-modal-msg" style="font-size:12px;color:var(--gold);font-style:italic"></div>
+    </div>
+    <div id="rel-modal-footer">
+      <button class="btn-primary" onclick="relSaveConn()" style="flex:1">✦ Salvar</button>
+      <button class="btn-danger btn-small" id="rel-del-btn" onclick="relDeleteConn()" style="display:none">Excluir</button>
+    </div>
   </div>
 </div>
 
@@ -5234,6 +5344,7 @@ showPage=function(id){
   if(id==='ressonador') setTimeout(ressPopulateSelect,100);
   if(id==='alquimia') setTimeout(alqInitParticles,100);
   if(id==='magia'){setTimeout(magInitParticles,300);}else{magStopParticles();const art=document.getElementById('article');if(art)art.classList.remove('full-width');}
+  if(id==='relacoes'){document.getElementById('map-page')?.classList.remove('active');document.getElementById('content-area').style.display='none';document.getElementById('rel-page')?.classList.add('active');document.querySelectorAll('.nav-item').forEach(el=>el.classList.remove('active'));document.getElementById('nav-relacoes')?.classList.add('active');document.getElementById('page-title').textContent='Mapa de Relações';document.getElementById('page-breadcrumb').textContent='Grande Britânia';document.getElementById('topbar-tags').innerHTML='';setTimeout(relInit,100);return;}else{document.getElementById('rel-page')?.classList.remove('active');document.getElementById('content-area').style.display='flex';}
   if(id==='bestiario') setTimeout(bestLoad,100);
   if(id==='faccoes') setTimeout(facLoad,100);
   if(id==='faccoes') setTimeout(facLoad,100);
@@ -5899,6 +6010,224 @@ async function facDelete(){
   facActiveId=null;
   await facLoad();
   facCloseModal();
+}
+
+
+// ═══════════════════════════════════════
+// MAPA DE RELAÇÕES
+// ═══════════════════════════════════════
+const REL_COLORS = {
+  aliado:'#80d890', neutro:'#3a3a4a', desconhecido:'#c8a030', inimigo:'#b03030'
+};
+const REL_LABELS = {aliado:'Aliado',neutro:'Neutro',desconhecido:'Desconhecido',inimigo:'Inimigo'};
+
+let relNodes = {};    // {charId: {x,y,name,thumb}}
+let relConns = [];    // [{a,b,type,desc,id?}]
+let relDragging = null;
+let relDragOffset = {x:0,y:0};
+let relEditingConn = null;
+let relPanX = 0, relPanY = 0;
+let relIsPanning = false, relPanStart = {x:0,y:0};
+
+function relBuildNodes(){
+  relNodes = {};
+  const wrap = document.getElementById('rel-canvas-wrap');
+  if(!wrap) return;
+  const W = wrap.clientWidth || 800;
+  const H = wrap.clientHeight || 500;
+  const chars = Object.entries(characters);
+  const count = chars.length;
+  if(!count) return;
+  // Arrange in circle initially
+  chars.forEach(([id,entry],i)=>{
+    const cd = entry._charData||{};
+    const angle = (2*Math.PI*i/count) - Math.PI/2;
+    const r = Math.min(W,H)*0.35;
+    relNodes[id] = {
+      x: W/2 + r*Math.cos(angle),
+      y: H/2 + r*Math.sin(angle),
+      name: cd.name||entry.title||'?',
+      thumb: cd.thumb||entry.image_url||null,
+      initials: (cd.name||entry.title||'?')[0]||'?'
+    };
+  });
+  // Load saved positions
+  try {
+    const saved = JSON.parse(localStorage.getItem('rel_positions')||'{}');
+    Object.entries(saved).forEach(([id,pos])=>{ if(relNodes[id]) Object.assign(relNodes[id],pos); });
+  } catch(e){}
+  // Load connections
+  try {
+    relConns = JSON.parse(localStorage.getItem('rel_conns')||'[]');
+  } catch(e){ relConns=[]; }
+}
+
+function relRender(){
+  const wrap = document.getElementById('rel-nodes');
+  const svg = document.getElementById('rel-svg');
+  if(!wrap||!svg) return;
+  // Render lines
+  const lines = Object.entries(relNodes).length>0 ? relConns.map((c,i)=>{
+    const a=relNodes[c.a], b=relNodes[c.b];
+    if(!a||!b) return '';
+    const color=REL_COLORS[c.type]||REL_COLORS.neutro;
+    const dash=c.type==='desconhecido'?'stroke-dasharray="6,4"':c.type==='inimigo'?'stroke-dasharray="2,3"':'';
+    return `<line x1="${a.x}" y1="${a.y}" x2="${b.x}" y2="${b.y}" 
+      stroke="${color}" stroke-width="${c.type==='aliado'?2.5:1.5}" ${dash} opacity="0.7"
+      data-idx="${i}" onclick="relClickLine(${i},event)"
+      style="pointer-events:stroke;cursor:pointer"/>`;
+  }).join('') : '';
+  svg.innerHTML = `<defs><filter id="rel-glow"><feGaussianBlur stdDeviation="2" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>${lines}`;
+  // Render nodes
+  wrap.innerHTML = Object.entries(relNodes).map(([id,node])=>`
+    <div class="rel-node" id="reln-${id}" 
+      style="left:${node.x}px;top:${node.y}px"
+      onmousedown="relStartDrag(event,'${id}')"
+      onclick="relClickNode('${id}',event)"
+      ondblclick="navTo('${id}')">
+      ${node.thumb
+        ?`<img class="rel-node-photo" src="${node.thumb}" alt="${node.name}">`
+        :`<div class="rel-node-initials">${node.initials}</div>`}
+      <div class="rel-node-name">${node.name}</div>
+    </div>
+  `).join('');
+}
+
+function relClickLine(idx, e){
+  if(!adminLoggedIn) {
+    // Show tooltip
+    const c=relConns[idx];
+    const tip=document.getElementById('rel-tooltip');
+    tip.style.display='block';
+    tip.style.left=e.clientX+10+'px';
+    tip.style.top=e.clientY+10+'px';
+    tip.innerHTML=`<strong style="color:${REL_COLORS[c.type]}">${REL_LABELS[c.type]}</strong>${c.desc?'<br>'+c.desc:''}`;
+    setTimeout(()=>tip.style.display='none',2500);
+    return;
+  }
+  relEditingConn=idx;
+  relOpenModal(idx);
+}
+
+function relClickNode(id, e){
+  e.stopPropagation();
+}
+
+function relStartDrag(e, id){
+  if(e.button!==0) return;
+  e.preventDefault();
+  e.stopPropagation();
+  relDragging=id;
+  const node=relNodes[id];
+  relDragOffset={x:e.clientX-node.x, y:e.clientY-node.y};
+  document.addEventListener('mousemove',relOnDrag);
+  document.addEventListener('mouseup',relEndDrag);
+}
+
+function relOnDrag(e){
+  if(!relDragging) return;
+  relNodes[relDragging].x=e.clientX-relDragOffset.x;
+  relNodes[relDragging].y=e.clientY-relDragOffset.y;
+  // Update node position
+  const el=document.getElementById('reln-'+relDragging);
+  if(el){el.style.left=relNodes[relDragging].x+'px';el.style.top=relNodes[relDragging].y+'px';}
+  // Redraw lines only
+  const svg=document.getElementById('rel-svg');
+  if(svg){
+    const lines=relConns.map((c,i)=>{
+      const a=relNodes[c.a],b=relNodes[c.b];
+      if(!a||!b) return '';
+      const color=REL_COLORS[c.type]||REL_COLORS.neutro;
+      const dash=c.type==='desconhecido'?'stroke-dasharray="6,4"':c.type==='inimigo'?'stroke-dasharray="2,3"':'';
+      return `<line x1="${a.x}" y1="${a.y}" x2="${b.x}" y2="${b.y}" stroke="${color}" stroke-width="${c.type==='aliado'?2.5:1.5}" ${dash} opacity="0.7" data-idx="${i}" onclick="relClickLine(${i},event)" style="pointer-events:stroke;cursor:pointer"/>`;
+    }).join('');
+    svg.innerHTML=`<defs><filter id="rel-glow"><feGaussianBlur stdDeviation="2" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>${lines}`;
+  }
+}
+
+function relEndDrag(){
+  if(relDragging){
+    // Save positions
+    const positions={};
+    Object.entries(relNodes).forEach(([id,n])=>positions[id]={x:n.x,y:n.y});
+    localStorage.setItem('rel_positions',JSON.stringify(positions));
+  }
+  relDragging=null;
+  document.removeEventListener('mousemove',relOnDrag);
+  document.removeEventListener('mouseup',relEndDrag);
+}
+
+function relAutoLayout(){
+  const wrap=document.getElementById('rel-canvas-wrap');
+  if(!wrap) return;
+  const W=wrap.clientWidth||800, H=wrap.clientHeight||500;
+  const chars=Object.keys(relNodes);
+  chars.forEach((id,i)=>{
+    const angle=(2*Math.PI*i/chars.length)-Math.PI/2;
+    const r=Math.min(W,H)*0.35;
+    relNodes[id].x=W/2+r*Math.cos(angle);
+    relNodes[id].y=H/2+r*Math.sin(angle);
+  });
+  localStorage.removeItem('rel_positions');
+  relRender();
+}
+
+function relInit(){
+  relBuildNodes();
+  relRender();
+  const addBtn=document.getElementById('rel-add-btn');
+  if(addBtn) addBtn.style.display=adminLoggedIn?'block':'none';
+  // Hide tooltip on canvas click
+  document.getElementById('rel-canvas-wrap')?.addEventListener('click',()=>{
+    document.getElementById('rel-tooltip').style.display='none';
+  });
+}
+
+function relOpenModal(connIdx){
+  const isEdit = connIdx!=null && connIdx>=0;
+  const c = isEdit ? relConns[connIdx] : null;
+  relEditingConn = isEdit ? connIdx : null;
+  document.getElementById('rel-modal-title').textContent=isEdit?'✎ Editar Conexão':'+ Nova Conexão';
+  // Populate selects
+  const chars=Object.entries(relNodes);
+  const opts=chars.map(([id,n])=>`<option value="${id}">${n.name}</option>`).join('');
+  document.getElementById('rel-char-a').innerHTML=opts;
+  document.getElementById('rel-char-b').innerHTML=opts;
+  if(c){
+    document.getElementById('rel-char-a').value=c.a;
+    document.getElementById('rel-char-b').value=c.b;
+    document.getElementById('rel-type').value=c.type||'neutro';
+    document.getElementById('rel-desc').value=c.desc||'';
+  } else {
+    document.getElementById('rel-type').value='neutro';
+    document.getElementById('rel-desc').value='';
+  }
+  document.getElementById('rel-del-btn').style.display=isEdit?'block':'none';
+  document.getElementById('rel-modal-msg').textContent='';
+  document.getElementById('rel-modal-overlay').classList.add('show');
+}
+
+function relCloseModal(){ document.getElementById('rel-modal-overlay').classList.remove('show'); }
+
+function relSaveConn(){
+  const a=document.getElementById('rel-char-a').value;
+  const b=document.getElementById('rel-char-b').value;
+  const msg=document.getElementById('rel-modal-msg');
+  if(!a||!b||a===b){msg.style.color='var(--red2)';msg.textContent='Selecione dois personagens diferentes.';return;}
+  const conn={a,b,type:document.getElementById('rel-type').value,desc:document.getElementById('rel-desc').value.trim()};
+  if(relEditingConn!=null) relConns[relEditingConn]=conn;
+  else relConns.push(conn);
+  localStorage.setItem('rel_conns',JSON.stringify(relConns));
+  relRender();
+  relCloseModal();
+}
+
+function relDeleteConn(){
+  if(relEditingConn==null||!confirm('Remover esta conexão?')) return;
+  relConns.splice(relEditingConn,1);
+  localStorage.setItem('rel_conns',JSON.stringify(relConns));
+  relRender();
+  relCloseModal();
 }
 
 async function init(){
